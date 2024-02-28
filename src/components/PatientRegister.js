@@ -1,5 +1,5 @@
 import React,  { useState } from 'react';
-import PatientIcon from '../assets/PatientIcon.jpg';
+import PatientIcon from '../assets/PatientIcon.svg';
 
 function PatientRegistration() {
     const [patientName, setPatientName] = useState('');
@@ -55,7 +55,7 @@ function PatientRegistration() {
                 <div className="col-md-6">
                     <div className="mb-3 g-10">
                     <label htmlFor="Gender" className="form-label required"><span className="form-label-heading" >Gender <span className="text-danger">*</span></span></label>
-                    <select className="form-control" id="InputGender" onChange={(e) => {setGender(e.target.value);}}>
+                    <select className="form-select" data-toggle="dropdown" required id="InputGender" onChange={(e) => {setGender(e.target.value);}}>
                         <option value="">Select</option> 
                         <option value="male">Male</option>
                         <option value="female">Female</option>
@@ -66,7 +66,7 @@ function PatientRegistration() {
                 <div className="col-md-6">
                     <div className="mb-3 g-10">
                     <label htmlFor="BloodGroup" className="form-label required"><span className="form-label-heading">Blood Group <span className="text-danger">*</span></span></label>
-                    <select className="form-control"  id="InputBloodGroup" onChange={(e) => {setBloodGroup(e.target.value);}}>
+                    <select className="form-select" data-toggle="dropdown" id="InputBloodGroup" onChange={(e) => {setBloodGroup(e.target.value);}}>
                         <option value="">Select</option> 
                         <option value="A+">A RhD positive (A+)</option>
                         <option value="A-">A RhD negative (A-)</option>
@@ -83,7 +83,7 @@ function PatientRegistration() {
 
                 <div className="mb-3 g-10">
                 <label htmlFor="MobileNumber" className="form-label required"><span className="form-label-heading">Mobile Number <span className="text-danger">*</span></span></label>
-                <input type="text" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onChange={(e) => {setMobileNumber(e.target.value);}} />
+                <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onChange={(e) => {setMobileNumber(e.target.value);}} />
                 </div>
 
                 <div className="mb-3 g-10">
