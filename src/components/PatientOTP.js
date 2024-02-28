@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import PatientIcon from "../assets/PatientIcon.svg";
 
-function PatientLogin() {
-  const [mobileNumber, setMobileNumber] = useState("");
+function PatientOTP() {
+  const [otp, setOtp] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log("Form submitted:", {
-      mobileNumber
+      otp,
     });
 
-    setMobileNumber("");
+    setOtp("");
   };
   return (
     <div>
@@ -24,47 +24,40 @@ function PatientLogin() {
       >
         <div className="center-container">
           <div className="card-body mb-3 g-30" style={{ width: "25rem" }}>
-            <h1 className="card-title mb-5 g-10 text-center">
-              Patient Login
-            </h1>
+            <h6 className="card-title mb-5 g-10 text-center">
+              We have sent a OTP to XXXXX XXX67
+            </h6>
             <form onSubmit={handleSubmit}>
               <div className="mb-5 g-10">
-                <label htmlFor="MobileNumber" className="form-label required">
+                <label htmlFor="otp" className="form-label required">
                   <span className="form-label-heading">
-                    Mobile Number <span className="text-danger">*</span>
+                    Enter OTP <span className="text-danger">*</span>
                   </span>
                 </label>
                 <input
                   style={{ height: "50px" }}
-                  type="tel"
+                  type="text"
                   className="form-control"
-                  id="InputMobileNumber"
-                  placeholder="Enter your Mobile Number"
+                  id="InputOtp"
+                  placeholder="Enter your OTP"
                   required
-                  minLength="10"
-                  maxLength="10"
                   onChange={(e) => {
-                    setMobileNumber(e.target.value);
+                    setOtp(e.target.value);
                   }}
                 />
+                <div class="text-end mb-3 g-10">
+                  <span style={{color: "blue"}}>Resend OTP</span>
+                </div>
               </div>
 
               <button
                 type="submit"
                 className="mb-3 g-10 btn btn-primary btn-lg d-block mx-auto rounded-pill"
-                style={{ width: "90%"}}
+                style={{ width: "300px" }}
               >
                 {" "}
-                Send OTP{" "}
+                Verify and Login{" "}
               </button>
-
-              <p className="card-text mb-3 g-10 text-center">
-                Don't have an account?{" "}
-                <a href="#" className="card-link">
-                  {" "}
-                  Create account{" "}
-                </a>
-              </p>
             </form>
           </div>
         </div>
@@ -73,4 +66,4 @@ function PatientLogin() {
   );
 }
 
-export default PatientLogin;
+export default PatientOTP;

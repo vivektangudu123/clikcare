@@ -31,6 +31,30 @@ function PatientRegistration() {
         setEmail('');
         setAgreedTerms(false);
       };
+    const [phonenumberotp, setphonenumberotp] = useState("");
+    const [emailotp, setemailotp] = useState("");
+    const [phonenumberotpSent, setphonenumberotpSent] = useState(false);
+    const [emailotpSent, setemailotpSent] = useState(false);
+    const [isphonenumberverified, setisphonenumberverified]=useState(false);
+    const [isemailverified, setisemailverified]=useState(false);
+    const sendphonenumberotp=()=>{
+        // Logic to send OTP to the provided phone number
+        setphonenumberotpSent(true);
+    }
+    const sendemailotp=()=>{
+        // Logic to send OTP to the provided email
+        setemailotpSent(true);
+    }
+    const verifyphonenumberotp=()=>{
+        //logic to verify phone number by otp
+        setisphonenumberverified(true);
+        setphonenumberotpSent(false);
+    }
+    const verifyemailotp=()=>{
+        //logic to verify email by otp
+        setisemailverified(true);
+        setemailotpSent(false);
+    }
   return (
     <div>
         <div style={{width:"100%"}}>
@@ -83,16 +107,38 @@ function PatientRegistration() {
 
                 <div className="mb-3 g-10">
                 <label htmlFor="MobileNumber" className="form-label required"><span className="form-label-heading">Mobile Number <span className="text-danger">*</span></span></label>
-                <input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onChange={(e) => {setMobileNumber(e.target.value);}} />
+                    <div class="row ">
+                        <input class="col-md-9" type="tel" pattern="[7-9]{1}[0-9]{9}" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onChange={(e) => {setMobileNumber(e.target.value);}} />
+                        <button className={`col-md-2 offset-md-1 btn ${isphonenumberverified ? "btn-success" : "btn-primary"}`} onClick={isphonenumberverified ? null : sendphonenumberotp}> {isphonenumberverified ? "Verified" : "Verify"} </button>
+                    </div>
+                    {phonenumberotpSent &&
+                        <div className="mt-3">
+                            <div>We have sent 6 digit code to {mobileNumber}</div>
+                            <div>Enter the otp to complete the verification</div>
+                            <input className="form-control" type="text" placeholder="Enter OTP" />
+                            <div></div>
+                            <button className="mb-3 g-10 btn btn-primary btn-sm d-block mx-auto" onClick={verifyphonenumberotp}>Verify OTP</button>
+                        </div>
+                    }
                 </div>
 
                 <div className="mb-3 g-10">
                 <label htmlFor="Email" className="form-label required"><span className="form-label-heading">Email <span className="text-danger">*</span></span></label>
-                <input type="email" className="form-control" id="InputEmail" placeholder="Enter your Email" required onChange={(e)=>{setEmail(e.target.value);}}/>
+                <div class="row ">
+                    <input type="email" class="col-8" className="form-control" id="InputEmail" placeholder="Enter your Email" required onChange={(e)=>{setEmail(e.target.value);}}/>
+                    <button class="col-2" onClick={sendemailotp}>verify</button>
+                </div>
+                    {emailotpSent &&
+                        <div className="mt-3">
+                            <span>Otp is sent to {email}</span>
+                            <input className="form-control" type="text" placeholder="Enter OTP" />
+                            <button className="btn btn-primary mt-2" onClick={verifyemailotp}>Verify OTP</button>
+                        </div>
+                    }
                 <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
 
-                <div className="mb-3 g-10 form-check">
+                <div className="mb-3 g-10 form-check">    
                 <input type="checkbox" className="form-check-input" id="exampleCheck1" required onChange={(e)=>{setAgreedTerms(e.target.checked);}}/>
                 <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                 </div>
