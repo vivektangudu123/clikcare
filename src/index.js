@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PatientRegistration from './components/PatientRegister'
+import PatientLogin from './components/PatientLogin';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
-    <PatientRegistration/>
+    {/* <PatientRegistration/> */}
+    <PatientLogin/>
   </React.StrictMode>
 );
 
