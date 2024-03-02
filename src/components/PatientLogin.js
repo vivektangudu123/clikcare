@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import PatientIcon from "../assets/PatientIcon.svg";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function PatientLogin() {
   const [mobileNumber, setMobileNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [mobileNumberOtpSent, setMobileNumberOtpSent] = useState(false);
   const [loginSuccessful, setLoginSuccessful] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,6 +31,9 @@ function PatientLogin() {
       // Send OTP logic here
       console.log("OTP sent for mobile number:", mobileNumber);
       setMobileNumberOtpSent(true);
+    }
+    if (loginSuccessful) {
+      navigate("/home");
     }
     setMobileNumber("");
     setOtp("");
@@ -87,10 +93,10 @@ function PatientLogin() {
               {(!mobileNumberOtpSent)&&(
                 <p className="card-text mb-3 g-10 text-center">
                   Don't have an account?{" "}
-                  <a href="#" className="card-link">
+                  <Link to="/register" className="card-link">
                     {" "}
                     Create account{" "}
-                  </a>
+                  </Link>
                 </p>)}
             </form>
           </div>
