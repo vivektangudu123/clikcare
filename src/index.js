@@ -13,9 +13,9 @@ root.render(
   <React.StrictMode>
     {/* <App /> */}
     {/* <PatientRegistration/> */}
-    {/* <PatientLogin/> */}
+    <PatientLogin/>
     {/* <PatientOTP/> */}
-    <PatientRegistrationTest/>
+    {/* <PatientRegistrationTest/> */}
   </React.StrictMode>
 );
 

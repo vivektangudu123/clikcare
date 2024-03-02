@@ -3,15 +3,34 @@ import PatientIcon from "../assets/PatientIcon.svg";
 
 function PatientLogin() {
   const [mobileNumber, setMobileNumber] = useState("");
+  const [otp, setOtp] = useState("");
+  const [mobileNumberOtpSent, setMobileNumberOtpSent] = useState(false);
+  const [loginSuccessful, setLoginSuccessful] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Form submitted:", {
-      mobileNumber
-    });
-
+    if (mobileNumberOtpSent) 
+    {
+      if(otp.length<6)
+      {
+        alert("Enter a six digit OTP to login");
+        return ;
+      }
+      // Verify OTP logic here
+      setLoginSuccessful(true);
+    } else {
+      if(mobileNumber.length<10)
+      {
+        alert("Enter a valid mobile number to login");
+        return ;
+      }
+      // Send OTP logic here
+      console.log("OTP sent for mobile number:", mobileNumber);
+      setMobileNumberOtpSent(true);
+    }
     setMobileNumber("");
+    setOtp("");
   };
   return (
     <div>
@@ -31,40 +50,48 @@ function PatientLogin() {
               <div className="mb-5 g-10">
                 <label htmlFor="MobileNumber" className="form-label required">
                   <span className="form-label-heading">
-                    Mobile Number <span className="text-danger">*</span>
+                    {mobileNumberOtpSent ? "Enter OTP" : "Mobile Number"}{" "}
+                    <span className="text-danger">*</span>
                   </span>
-                </label>
+                </label>  
                 <input
                   style={{ height: "50px" }}
-                  type="tel"
+                  type={mobileNumberOtpSent ? "text" : "tel"}
                   className="form-control"
                   id="InputMobileNumber"
-                  placeholder="Enter your Mobile Number"
-                  required
-                  minLength="10"
-                  maxLength="10"
-                  onChange={(e) => {
-                    setMobileNumber(e.target.value);
-                  }}
+                  placeholder={
+                    mobileNumberOtpSent
+                      ? "Enter OTP"
+                      : "Enter your Mobile Number"
+                  }
+                  value={mobileNumberOtpSent ? otp : mobileNumber}
+                  onChange={(e) =>
+                    mobileNumberOtpSent
+                      ? setOtp(e.target.value)
+                      : setMobileNumber(e.target.value)
+                  }
+                  required={!mobileNumberOtpSent}
+                  minLength={mobileNumberOtpSent ? "6" : "10"}
+                  maxLength={mobileNumberOtpSent ? "6" : "10"}
+                  onInput={(e) => {const inputValue = e.target.value;const numericValue = inputValue.replace(/\D/g, ''); e.target.value=numericValue;setMobileNumber(numericValue);}}
                 />
               </div>
 
               <button
                 type="submit"
                 className="mb-3 g-10 btn btn-primary btn-lg d-block mx-auto rounded-pill"
-                style={{ width: "90%"}}
+                style={{ width: "90%" }}
               >
-                {" "}
-                Send OTP{" "}
+                {mobileNumberOtpSent ? "Verify OTP" : "Send OTP"}
               </button>
-
-              <p className="card-text mb-3 g-10 text-center">
-                Don't have an account?{" "}
-                <a href="#" className="card-link">
-                  {" "}
-                  Create account{" "}
-                </a>
-              </p>
+              {(!mobileNumberOtpSent)&&(
+                <p className="card-text mb-3 g-10 text-center">
+                  Don't have an account?{" "}
+                  <a href="#" className="card-link">
+                    {" "}
+                    Create account{" "}
+                  </a>
+                </p>)}
             </form>
           </div>
         </div>
