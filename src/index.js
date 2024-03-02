@@ -6,14 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import PatientRegistration from './components/PatientRegister'
 import PatientLogin from './components/PatientLogin';
 import PatientOTP from './components/PatientOTP';
+import PatientRegistrationTest from './components/PatientRegisterTest';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
-    <PatientRegistration/>
+    {/* <PatientRegistration/> */}
     {/* <PatientLogin/> */}
     {/* <PatientOTP/> */}
+    <PatientRegistrationTest/>
   </React.StrictMode>
 );
 

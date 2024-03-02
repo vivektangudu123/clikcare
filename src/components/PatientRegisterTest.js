@@ -1,7 +1,7 @@
 import React,  { useState } from 'react';
 import PatientIcon from '../assets/PatientIcon.svg';
 
-function PatientRegistration() {
+function PatientRegistrationTest() {
     const [patientName, setPatientName] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState('');
@@ -107,17 +107,21 @@ function PatientRegistration() {
 
                 <div className="mb-3 g-10">
                 <label htmlFor="MobileNumber" className="form-label required"><span className="form-label-heading">Mobile Number <span className="text-danger">*</span></span></label>
-                    <div class="row ">
-                        <input class="col-md-9" type="tel" pattern="[7-9]{1}[0-9]{9}" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onChange={(e) => {setMobileNumber(e.target.value);}} />
+                    <div class="row">
+                        <input class="col-md-9" style={{ width: '70%', marginLeft: '2%'}} type="tel" pattern="[7-9]{1}[0-9]{9}" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onChange={(e) => {setMobileNumber(e.target.value);}} />
                         <button className={`col-md-2 offset-md-1 btn ${isphonenumberverified ? "btn-success" : "btn-primary"}`} onClick={isphonenumberverified ? null : sendphonenumberotp}> {isphonenumberverified ? "Verified" : "Verify"} </button>
                     </div>
                     {phonenumberotpSent &&
-                        <div className="mt-3">
-                            <div>We have sent 6 digit code to {mobileNumber}</div>
-                            <div>Enter the otp to complete the verification</div>
-                            <input className="form-control" type="text" placeholder="Enter OTP" />
-                            <div></div>
-                            <button className="mb-3 g-10 btn btn-primary btn-sm d-block mx-auto" onClick={verifyphonenumberotp}>Verify OTP</button>
+                        <div className="mb-3 g-10">
+                            <div className="form-text mb-3 g-10">We have sent 6 digit code to your mobile number.{mobileNumber}</div>
+                            
+                            <div className="mb-3 g-10">
+                                <label htmlFor="OtpVeriifcation" className="form-label required"><span className="form-label-heading"> Enter the otp for complete verification<span className="text-danger">*</span></span></label>
+                                <div class="row"> 
+                                    <input type="text" class="col-md-9" style={{ width: '70%', marginLeft: '2%'}} className="form-control" id="InputOTP" placeholder="Enter OTP" required />
+                                    <button className="col-md-2 offset-md-1 btn btn-primary" onClick={verifyphonenumberotp}> Verify </button>
+                                </div>
+                            </div>
                         </div>
                     }
                 </div>
@@ -125,8 +129,8 @@ function PatientRegistration() {
                 <div className="mb-3 g-10">
                 <label htmlFor="Email" className="form-label required"><span className="form-label-heading">Email <span className="text-danger">*</span></span></label>
                 <div class="row ">
-                    <input type="email" class="col-8" className="form-control" id="InputEmail" placeholder="Enter your Email" required onChange={(e)=>{setEmail(e.target.value);}}/>
-                    <button class="col-2" onClick={sendemailotp}>verify</button>
+                    <input type="email" class="col-md-9" className="form-control" style={{ width: '70%', marginLeft: '2%' }} id="InputEmail" placeholder="Enter your Email" required onChange={(e)=>{setEmail(e.target.value);}}/>
+                    <button class="col-md-2 offset-md-1 btn btn-primary" onClick={sendemailotp}>Verify</button>
                 </div>
                     {emailotpSent &&
                         <div className="mt-3">
@@ -154,4 +158,4 @@ function PatientRegistration() {
   );
 }
 
-export default PatientRegistration;
+export default PatientRegistrationTest;
