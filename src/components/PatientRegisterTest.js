@@ -38,28 +38,25 @@ function PatientRegistrationTest() {
     const [isphonenumberverified, setisphonenumberverified]=useState(false);
     const [isemailverified, setisemailverified]=useState(false);
     const sendphonenumberotp=()=>{
-        // Logic to send OTP to the provided phone number
         if(mobileNumber.length!=10) {
             alert("Enter a Valid Mobile Number");
             return ;
         }
+        // Logic to send OTP to the provided phone number
         setphonenumberotpSent(true);
     }
     const verifyphonenumberotp=()=>{
         if(phonenumberotp<6)
         {
             alert("Enter a Valid Otp to verify your Mobile Number");
-        }
             return ;
-        //logic to verify phone number by otp
+        }
+          // Logic to verify phone number OTP
         setisphonenumberverified(true);
         setphonenumberotpSent(false);
     }
     const sendemailotp = () => {
-        // Regular expression for email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-        // Check if the email is valid
         if (!emailRegex.test(email)) {
             alert("Invalid email address. Please enter a valid email address.");
             return;
@@ -70,12 +67,13 @@ function PatientRegistrationTest() {
     }
     
     const verifyemailotp=()=>{
-        //logic to verify email by otp
+        
         if(emailotp.length<6)
         {
             alert("Enter a Valid OTP to verify your Email address");
             return ;
         }
+        //logic to verify email by otp
         setisemailverified(true);
         setemailotpSent(false);
     }
