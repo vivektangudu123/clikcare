@@ -39,19 +39,43 @@ function PatientRegistrationTest() {
     const [isemailverified, setisemailverified]=useState(false);
     const sendphonenumberotp=()=>{
         // Logic to send OTP to the provided phone number
+        if(mobileNumber.length!=10) {
+            alert("Enter a Valid Mobile Number");
+            return ;
+        }
         setphonenumberotpSent(true);
     }
-    const sendemailotp=()=>{
-        // Logic to send OTP to the provided email
-        setemailotpSent(true);
-    }
     const verifyphonenumberotp=()=>{
+        if(phonenumberotp<6)
+        {
+            alert("Enter a Valid Otp to verify your Mobile Number");
+        }
+            return ;
         //logic to verify phone number by otp
         setisphonenumberverified(true);
         setphonenumberotpSent(false);
     }
+    const sendemailotp = () => {
+        // Regular expression for email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+        // Check if the email is valid
+        if (!emailRegex.test(email)) {
+            alert("Invalid email address. Please enter a valid email address.");
+            return;
+        }
+    
+        // Logic to send OTP to the provided email
+        setemailotpSent(true);
+    }
+    
     const verifyemailotp=()=>{
         //logic to verify email by otp
+        if(emailotp.length<6)
+        {
+            alert("Enter a Valid OTP to verify your Email address");
+            return ;
+        }
         setisemailverified(true);
         setemailotpSent(false);
     }
@@ -60,10 +84,10 @@ function PatientRegistrationTest() {
         <div style={{width:"100%"}}>
             <img src={PatientIcon} className="img-fluid" alt="Clik Care Logo" ></img>
         </div>
-        <div className="container-fluid d-flex justify-content-center align-items-center" style={{ height: '90vh' }}>
+        <div className="container-fluid d-flex justify-content-center align-items-center">
         <div className="center-container">
             <div className="card-body mb-3 g-30" style={{ width: '30rem' }}>
-            <h1 className="card-title mb-3 g-10 text-center">Patient Registration</h1>
+            <h1 className="card-title mb-3 g-10 text-center text-primary">Patient Registration</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3 g-10">
                 <label htmlFor="PatientName" className="form-label required"><span className="form-label-heading">Full Name <span className="text-danger">*</span></span></label>
@@ -108,18 +132,19 @@ function PatientRegistrationTest() {
                 <div className="mb-3 g-10">
                 <label htmlFor="MobileNumber" className="form-label required"><span className="form-label-heading">Mobile Number <span className="text-danger">*</span></span></label>
                     <div class="row">
-                        <input class="col-md-9" style={{ width: '70%', marginLeft: '2%'}} type="tel" pattern="[7-9]{1}[0-9]{9}" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onChange={(e) => {setMobileNumber(e.target.value);}} />
+                        <input class="col-md-9" style={{ width: '70%', marginLeft: '2%'}} type="tel" pattern="[0-9]{10}" inputMode="numeric" className="form-control" id="InputMobileNumber" placeholder="Enter your Mobile Number" required minLength="10" maxLength="10" onInput={(e) => {const inputValue = e.target.value; const numericValue = inputValue.replace(/\D/g, '');  e.target.value = numericValue; setMobileNumber(numericValue);}} onChange={(e) => {setMobileNumber(e.target.value);}} />
                         <button className={`col-md-2 offset-md-1 btn ${isphonenumberverified ? "btn-success" : "btn-primary"}`} onClick={isphonenumberverified ? null : sendphonenumberotp}> {isphonenumberverified ? "Verified" : "Verify"} </button>
                     </div>
+                    
                     {phonenumberotpSent &&
                         <div className="mb-3 g-10">
-                            <div className="form-text mb-3 g-10">We have sent 6 digit code to your mobile number.{mobileNumber}</div>
+                            <div className="form-text mb-3 g-10">We have sent 6 digit code to your mobile number.</div>
                             
                             <div className="mb-3 g-10">
-                                <label htmlFor="OtpVeriifcation" className="form-label required"><span className="form-label-heading"> Enter the otp for complete verification<span className="text-danger">*</span></span></label>
+                                <label htmlFor="MobileOtpVerification" className="form-label required"><span className="form-label-heading"> Enter the otp for complete verification<span className="text-danger">*</span></span></label>
                                 <div class="row"> 
-                                    <input type="text" class="col-md-9" style={{ width: '70%', marginLeft: '2%'}} className="form-control" id="InputOTP" placeholder="Enter OTP" required />
-                                    <button className="col-md-2 offset-md-1 btn btn-primary" onClick={verifyphonenumberotp}> Verify </button>
+                                    <input onInput={(e) => {const inputValue = e.target.value;const numericValue = inputValue.replace(/\D/g, ''); e.target.value=numericValue;setMobileNumber(numericValue);}}  type="text" class="col-md-9" minLength={6} maxLength={6} style={{ width: '70%', marginLeft: '2%'}} className="form-control" id="InputOTP" placeholder="Enter OTP" required onChange={(e)=>{setphonenumberotp(e.target.value)}}/>
+                                    <button className="col-md-2 offset-md-1 btn btn-primary" onClick={verifyphonenumberotp}> Submit </button>
                                 </div>
                             </div>
                         </div>
@@ -127,19 +152,25 @@ function PatientRegistrationTest() {
                 </div>
 
                 <div className="mb-3 g-10">
-                <label htmlFor="Email" className="form-label required"><span className="form-label-heading">Email <span className="text-danger">*</span></span></label>
-                <div class="row ">
-                    <input type="email" class="col-md-9" className="form-control" style={{ width: '70%', marginLeft: '2%' }} id="InputEmail" placeholder="Enter your Email" required onChange={(e)=>{setEmail(e.target.value);}}/>
-                    <button class="col-md-2 offset-md-1 btn btn-primary" onClick={sendemailotp}>Verify</button>
-                </div>
+                    <label htmlFor="Email" className="form-label required"><span className="form-label-heading">Email <span className="text-danger">*</span></span></label>
+                    <div class="row ">
+                        <input type="email" class="col-md-9" className="form-control" style={{ width: '70%', marginLeft: '2%' }} id="InputEmail" placeholder="Enter your Email" required onChange={(e)=>{setEmail(e.target.value);}}/>
+                        <button className={`col-md-2 offset-md-1 btn ${isemailverified ? "btn-success" : "btn-primary"}`} onClick={isemailverified ? null : sendemailotp}> {isemailverified ? "Verified" : "Verify"} </button>
+                    </div>
                     {emailotpSent &&
-                        <div className="mt-3">
-                            <span>Otp is sent to {email}</span>
-                            <input className="form-control" type="text" placeholder="Enter OTP" />
-                            <button className="btn btn-primary mt-2" onClick={verifyemailotp}>Verify OTP</button>
+                        <div className="mb-3 g-10">
+                            <div className="form-text mb-3 g-10">We have sent 6 digit code to your Email.</div>
+                            
+                            <div className="mb-3 g-10"> 
+                                <label htmlFor="EmailOtpVerification" className="form-label required"><span className="form-label-heading"> Enter the otp for Email verification<span className="text-danger">*</span></span></label>
+                                <div class="row"> 
+                                    <input onInput={(e) => {const inputValue = e.target.value;const numericValue = inputValue.replace(/\D/g, ''); e.target.value=numericValue;setMobileNumber(numericValue);}} onChange={(e)=>{setemailotp(e.target.value)}} type="text" class="col-md-9" minLength={6} maxLength={6} style={{ width: '70%', marginLeft: '2%'}} className="form-control" id="InputOTP" placeholder="Enter OTP" required />
+                                    <button className="col-md-2 offset-md-1 btn btn-primary" onClick={verifyemailotp}> Submit </button>
+                                </div>
+                            </div>
                         </div>
                     }
-                <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    
                 </div>
 
                 <div className="mb-3 g-10 form-check">    
