@@ -33,7 +33,7 @@ function PatientLogin() {
       setMobileNumberOtpSent(true);
     }
     if (loginSuccessful) {
-      navigate("/home");
+      navigate("/dashboard");
     }
     setMobileNumber("");
     setOtp("");
@@ -93,7 +93,7 @@ function PatientLogin() {
               {(!mobileNumberOtpSent)&&(
                 <p className="card-text mb-3 g-10 text-center">
                   Don't have an account?{" "}
-                  <Link to="/register" className="card-link">
+                  <Link to="/patientRegister" className="card-link">
                     {" "}
                     Create account{" "}
                   </Link>

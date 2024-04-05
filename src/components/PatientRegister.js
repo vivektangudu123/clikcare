@@ -178,7 +178,7 @@ function PatientRegistrationTest() {
 
                 <button type="submit" className="mb-3 g-10 btn btn-primary btn-lg d-block mx-auto rounded-pill" style={{ width: '250px' }}> Register </button>
 
-                <p className="card-text mb-3 g-10 text-center">Already Registered? <Link to="/" className="card-link"> Login </Link></p>
+                <p className="card-text mb-3 g-10 text-center">Already Registered? <Link to="/patientLogin" className="card-link"> Login </Link></p>
             </form>
             </div>
         </div>
