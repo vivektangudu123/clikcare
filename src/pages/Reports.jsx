@@ -4,6 +4,7 @@ import download from "../assets/download.svg";
 import view from "../assets/View.svg"
 import share from "../assets/Share.svg"
 import document from "../assets/Document.svg";
+import { get_all_records } from '../apicalls/records';
 
 const UploadReportPopup = ({ onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -48,7 +49,7 @@ const Reports = () => {
     
     const fetchData = async () => {
       try {
-        const response = await fetch('your_backend_api_endpoint');
+        const response = get_all_records();
         const data = await response.json();
         setReports(data);
       } catch (error) {
