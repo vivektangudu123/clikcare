@@ -19,6 +19,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/LandingPage" element={<LandingPage />} />
         <Route path="/patientRegister" element={<PatientRegistration />} />
         <Route path="/doctorRegister" element={<DoctorRegistration />} />
         <Route path="/patientLogin" element={<PatientLogin/>} />
@@ -30,6 +31,7 @@ function App() {
         <Route path='/DirectMessaging' element={<DirectMessaging/>}></Route>
         <Route path='/Settings' element={<Settings />}></Route>
         <Route path='/Logout' element={<Logout />}></Route>
+        <Route path='/Sidebar' element={<Sidebar />}></Route>
       </Routes>
       {/* <Sidebar>
          <Routes>

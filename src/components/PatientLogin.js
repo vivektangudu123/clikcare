@@ -112,8 +112,23 @@ import PatientIcon from "../assets/PatientIcon.svg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Login_OTP, Login_Patient } from "../apicalls/patient";
-
+import { verify_jwt } from "../apicalls/axiosInstance";
+import { useEffect } from 'react';
 function PatientLogin() {
+  useEffect(() => {
+    const token = localStorage.getItem('JWT');
+
+    if (token) {
+      console.log("Found a JWT token");
+      const response = verify_jwt(token);
+
+      if (response !== "1" && response !== "2") {
+        navigate("/Overview");
+      } else {
+          navigate("/LandingPage")
+      }
+    }
+}, []);
   const [mobileNumber, setMobileNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [mobileNumberOtpSent, setMobileNumberOtpSent] = useState(false);

@@ -192,7 +192,23 @@ import { Link } from "react-router-dom";
 import axios from 'axios'; // Import axios library
 import { Login_OTP, Login_Patient } from "../apicalls/patient";
 import { useNavigate } from "react-router-dom";
+import { verify_jwt } from "../apicalls/axiosInstance";
+import { useEffect } from 'react';
 function PatientRegistration() {
+    useEffect(() => {
+        const token = localStorage.getItem('JWT');
+    
+        if (token) {
+          console.log("Found a JWT token");
+          const response = verify_jwt(token);
+    
+          if (response !== "1" && response !== "2") {
+            navigate("/Overview");
+          } else {
+              navigate("/LandingPage")
+          }
+        }
+    }, []);
     const [patientName, setPatientName] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState('');
@@ -271,7 +287,7 @@ function PatientRegistration() {
     const [isphonenumberverified, setisphonenumberverified] = useState(false);
     const [isemailverified, setisemailverified] = useState(true);
     const sendphonenumberotp = () => {
-        if (mobileNumber.length != 10) {
+        if (mobileNumber.length !== 10) {
             alert("Enter a Valid Mobile Number");
             return;
         }

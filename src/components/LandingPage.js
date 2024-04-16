@@ -3,8 +3,26 @@ import TitleLogo from "../assets/DoctorIcon.svg";
 import DoctorLogo from "../assets/DoctorLogo.svg";
 import PatientLogo from "../assets/PatientLogo.svg";
 import { Link } from "react-router-dom";
+import { verify_jwt } from "../apicalls/axiosInstance";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LandingPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('JWT');
+
+    if (token) {
+      console.log("Found a JWT token");
+      const response = verify_jwt(token);
+
+      if (response != "1" && response != "2") {
+        navigate("/Overview");
+      }
+    }
+  }, []);
+   
   return (
     <div className="container d-flex flex-column align-items-center justify-content-center" style={{ height: "100vh" }}>
       <img src={TitleLogo} className="img-fluid mb-4" alt="Clik Care Logo" />

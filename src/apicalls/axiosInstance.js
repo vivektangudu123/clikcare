@@ -9,7 +9,7 @@
 export const verify_jwt = async (token) => {
 
     await fetch("http://localhost:5001" + '/api/auth/jwt', {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
