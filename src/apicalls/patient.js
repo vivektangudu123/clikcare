@@ -7,8 +7,6 @@ export const Login_Patient = async (mobile_number,type) => {
         'mobile_number': mobile_number,
         "type":type
     }
-
-
     try {
         const response = await fetch("http://localhost:5001" + '/api/auth/send_otp', {
             method: 'POST',

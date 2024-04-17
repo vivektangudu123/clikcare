@@ -4,20 +4,22 @@ import download from "../assets/download.svg";
 import view from "../assets/View.svg"
 import share from "../assets/Share.svg"
 import document from "../assets/Document.svg";
-import { get_all_records } from '../apicalls/records';
+import { get_all_records,uploadReport} from '../apicalls/records';
 import xmlJs from 'xml-js';
 import { Document, Page } from 'react-pdf'; 
-
 const UploadReportPopup = ({ onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileUpload = () => {
+  const handleFileUpload = async () => {
     if (selectedFile) {
-      // Add your file upload logic here
-      // Once upload is complete, you can call onClose to close the popup
-      onClose(selectedFile);
+      try {
+        const uploadResponse = await uploadReport(selectedFile,"bcisdk"); // Assuming uploadReport function exists in your apicalls/records module
+        console.log('Upload response:', uploadResponse);
+        onClose(selectedFile);
+      } catch (error) {
+        console.error('Error uploading report:', error);
+      }
     } else {
-      // Show a message or alert that no file is selected
       alert('Please select a file to upload');
     }
   };
@@ -25,6 +27,7 @@ const UploadReportPopup = ({ onClose }) => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
 
   return (
     <>
@@ -54,12 +57,12 @@ const Reports = () => {
         const response = await get_all_records();
         const json = xmlJs.xml2js(response, { compact: true, spaces: 2 });
         let items = [];
-  
-        if (json.List && json.List.item) {
-          if (Array.isArray(json.List.item)) {
-            items = json.List.item;
+
+        if (json.ArrayList && json.ArrayList.item) {
+          if (Array.isArray(json.ArrayList.item)) {
+            items = json.ArrayList.item;
           } else {
-            items = [json.List.item];
+            items = [json.ArrayList.item];
           }
         }
         setReports(items);
@@ -69,6 +72,7 @@ const Reports = () => {
     };
     fetchData();
   }, []);
+
 
   const handleUploadClick = () => {
     setShowUploadPopup(true);
