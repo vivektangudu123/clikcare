@@ -17,9 +17,12 @@ export const AddAppointment = async (doctorid, startTime,appointment_time) => {
 
         if (response.ok) {
             const data = await response.text();
-            console.log(data)
+            if (data === "1") {
+                return 1
+            }
             return data;            
-        } else {
+        }
+        else {
             console.log(response)
             console.log("Request failed with status:", response.status);
             return "error";

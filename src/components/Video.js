@@ -37,7 +37,7 @@ const ConnectionStatus = {
 
 const webSocketConnection = new WebSocket("ws://localhost:5001/videochat");
 
-export const HomePage = () => {
+export const Video = () => {
   const videoSelf = useRef(null);
   const videoCaller = useRef(null);
   const [connectionStatus, setConnectionStatus] = useState(null);
@@ -94,4 +94,4 @@ export const HomePage = () => {
     </div>
   );
 };
-export default HomePage;
+export default Video;

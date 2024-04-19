@@ -395,7 +395,7 @@ function PatientRegistration() {
                                         <div className="mb-3 g-10">
                                             <label htmlFor="MobileOtpVerification" className="form-label required"><span className="form-label-heading"> Enter the otp for complete verification<span className="text-danger">*</span></span></label>
                                             <div class="row">
-                                                <input onInput={(e) => { const inputValue = e.target.value; const numericValue = inputValue.replace(/\D/g, ''); e.target.value = numericValue; setMobileNumber(numericValue); }} type="text" class="col-md-9" minLength={6} maxLength={6} style={{ width: '70%', marginLeft: '2%' }} className="form-control" id="InputOTP" placeholder="Enter OTP" required onChange={(e) => { setphonenumberotp(e.target.value) }} />
+                                                <input onInput={(e) => { const inputValue = e.target.value; const numericValue = inputValue.replace(/\D/g, ''); e.target.value = numericValue; setphonenumberotp(numericValue); }} type="text" class="col-md-9" minLength={6} maxLength={6} style={{ width: '70%', marginLeft: '2%' }} className="form-control" id="InputOTP" placeholder="Enter OTP" required onChange={(e) => { setphonenumberotp(e.target.value) }} />
                                                 <button className="col-md-2 offset-md-1 btn btn-primary" onClick={verifyphonenumberotp}> Submit </button>
                                             </div>
                                         </div>

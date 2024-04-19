@@ -149,7 +149,7 @@ function DoctorLogin() {
                                 </button>
                                 <p className="card-text mb-3 g-10 text-center">
                                     Don't have an account?{" "}
-                                    <Link to="/doctor-register" className="card-link">
+                                    <Link to="/doctorRegister" className="card-link">
                                         {" "}
                                         Create account{" "}
                                     </Link>

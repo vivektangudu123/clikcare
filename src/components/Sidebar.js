@@ -97,6 +97,7 @@ const Sidebar = ({ children }) => {
             className="link"
             activeClassName="active"
             onClick={() => handleNavLinkClick(index)}
+            style={{ textDecoration: 'none' }}
           >
             <div className="icon">{item.icon}</div>
             <div

@@ -6,7 +6,9 @@ import share from "../assets/Share.svg"
 import document from "../assets/Document.svg";
 import { get_all_records,uploadReport} from '../apicalls/records';
 import xmlJs from 'xml-js';
-import { Document, Page } from 'react-pdf'; 
+// import { Document, Page } from 'react-pdf'; 
+import { useNavigate } from "react-router-dom";
+import { verify_jwt } from "../apicalls/axiosInstance";
 const UploadReportPopup = ({ onClose }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -50,10 +52,23 @@ const Reports = () => {
   const [reports, setReports] = useState([]);
   const [showUploadPopup, setShowUploadPopup] = useState(false);
   const [selectedReportIndex, setSelectedReportIndex] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem('JWT');
+        if (token) {
+          console.log("Found a JWT token");
+          const respon = verify_jwt(token);
+    
+          if (respon === "1" && respon === "2") {
+            navigate("/LandingPage")
+            return 
+          } 
+        } else {
+          navigate("/LandingPage")
+          return 
+        }
         const response = await get_all_records();
         const json = xmlJs.xml2js(response, { compact: true, spaces: 2 });
         let items = [];
@@ -84,7 +99,26 @@ const Reports = () => {
 
   const handleReportClick = (index) => {
     setSelectedReportIndex(index);
+    const report = reports[index];
+    // console.log('Report data:', report); // Log the report object to inspect its structure
+    console.log('File data:', report.fileData._text); // Log the file data to check its format
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      newWindow.document.write(`
+        <html>
+          <head>
+            <title>Report Viewer</title>
+          </head>
+          <body>
+            <iframe src="data:application/pdf;base64,${report.fileData._text}" width="100%" height="100%" frameborder="0"></iframe>
+          </body>
+        </html>
+      `);
+    } else {
+      alert('Please allow pop-ups for this website to view reports.');
+    }
   };
+  
 
   return (
     <div>
@@ -110,13 +144,6 @@ const Reports = () => {
             <button style={{ borderWidth: "2px", backgroundColor: "#FFFFFF", padding: "15px", borderRadius: "30px", fontWeight: "600", fontSize: "14px", borderColor: "#3F38FF", marginRight: "20px", color: "#3F38FF", display: "flex" }}><img src={download} style={{ marginRight: "4px" }} alt="Download" /><span style={{ paddingTop: "5px" }}>Download</span></button>
             <button style={{ borderWidth: "2px", backgroundColor: "#FFFFFF", padding: "15px", borderRadius: "30px", fontWeight: "600", fontSize: "14px", borderColor: "#3F38FF", marginRight: "20px", color: "#3F38FF", display: "flex" }}><img src={share} style={{ marginRight: "4px" }} alt="Share" /><span style={{ paddingTop: "5px" }}>Share Report</span></button>
           </div>
-          {selectedReportIndex === index && (
-            <div style={{ marginTop: '20px' }}>
-              <Document file={report.fileData}>
-                <Page pageNumber={1} />
-              </Document>
-            </div>
-          )}
         </div>
       ))}
       {showUploadPopup && (
@@ -132,57 +159,4 @@ export default Reports;
 
 
 
-// import React, { useEffect, useState } from 'react';
-// import upload from "../assets/upload.svg";
-// import download from "../assets/download.svg";
-// import view from "../assets/View.svg"
-// import share from "../assets/Share.svg"
-// import document from "../assets/Document.svg";
 
-// const Reports = () => {
-//   const [reports, setReports] = useState([]);
-//   useEffect(() => {
-    
-//     const fetchData = async () => {
-//       try {
-//         const response = await fetch('your_backend_api_endpoint');
-//         const data = await response.json();
-//         setReports(data);
-//       } catch (error) {
-//         console.error('Error fetching report data:', error);
-//       }
-//     };
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <div>
-//       <div style={{ paddingTop: "20px", marginLeft: "25px", fontWeight: "600", fontSize: "30px" }}>Reports</div>
-//       <div style={{ display: "flex", marginLeft: "25px", marginTop: "30px" }}>
-//         <button style={{ borderWidth: "2px", backgroundColor: "#FFFFFF", padding: "15px", borderRadius: "30px", fontWeight: "600", fontSize: "18px", borderColor: "#3F38FF", marginRight: "20px", color: "#3F38FF", display: "flex" }}><img src={download} style={{ marginRight: "5px" }} /><span style={{ paddingTop: "2px" }}>Upload a Report</span></button>
-//         <button style={{ borderWidth: "2px", backgroundColor: "#FFFFFF", padding: "15px", borderRadius: "30px", fontWeight: "600", fontSize: "18px", borderColor: "#3F38FF", marginRight: "20px", color: "#3F38FF", display: "flex" }}><img src={upload} style={{ marginRight: "5px" }} /><span style={{ paddingTop: "2px" }}>Download all Reports</span></button>
-//       </div>
-//       {reports.map((report, index) => (
-//         <div key={index} className='ReportItem' style={{ display: 'flex', alignItems: 'center', padding: '10px', marginLeft: "25px", border: "10px", backgroundColor: "white", marginTop: "30px", marginRight: "25px" }}>
-//           <div>
-//             <img src={document} alt="Image" style={{ alignSelf: 'flex-start', height: 'auto', borderRadius: '5px', marginLeft: '5px', marginRight: '10px' }} />
-//           </div>
-//           <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-//             <div style={{ marginBottom: '10px' }}>
-//               <p style={{ marginBottom: '3px', fontWeight: 'bold' }}>Report name: {report.name}</p>
-//               <p style={{ marginBottom: '3px', fontWeight: 'bold' }}>Doctor name: {report.doctor}</p>
-//               <p style={{ fontWeight: 'bold' }}>Date: {report.date}</p>
-//             </div>
-//           </div>
-//           <div style={{ display: 'flex' }}>
-//             <button style={{ borderWidth: "2px", backgroundColor: "#FFFFFF", padding: "15px", borderRadius: "30px", fontWeight: "600", fontSize: "14px", borderColor: "#3F38FF", marginRight: "20px", color: "#3F38FF", display: "flex" }}><img src={view} style={{ marginRight: "4px" }} /><span style={{ paddingTop: "5px" }}>View Report</span></button>
-//             <button style={{ borderWidth: "2px", backgroundColor: "#FFFFFF", padding: "15px", borderRadius: "30px", fontWeight: "600", fontSize: "14px", borderColor: "#3F38FF", marginRight: "20px", color: "#3F38FF", display: "flex" }}><img src={download} style={{ marginRight: "4px" }} /><span style={{ paddingTop: "5px" }}>Download</span></button>
-//             <button style={{ borderWidth: "2px", backgroundColor: "#FFFFFF", padding: "15px", borderRadius: "30px", fontWeight: "600", fontSize: "14px", borderColor: "#3F38FF", marginRight: "20px", color: "#3F38FF", display: "flex" }}><img src={share} style={{ marginRight: "4px" }} /><span style={{ paddingTop: "5px" }}>Share Report</span></button>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   )
-// }
-
-// export default Reports;

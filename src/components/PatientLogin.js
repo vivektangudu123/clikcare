@@ -169,6 +169,11 @@ function PatientLogin() {
    
         setLoginSuccessful(true);
         navigate("/Sidebar");
+      } else if (
+        response==="invalid"
+      ) {
+        alert("Please try again!!");
+        navigate("/PatientLogin")
       }
     } catch (error) {
       console.error("Error:", error);
@@ -253,7 +258,7 @@ function PatientLogin() {
                 </button>
                 <p className="card-text mb-3 g-10 text-center">
                   Don't have an account?{" "}
-                  <Link to="/patient-register" className="card-link">
+                  <Link to="/patientRegister" className="card-link">
                     {" "}
                     Create account{" "}
                   </Link>

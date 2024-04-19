@@ -4,19 +4,37 @@ import { get_all_doctors } from '../apicalls/doctor';
 import document from "../assets/Document.svg";
 import view from "../assets/View.svg"
 import xmlJs from 'xml-js'
+import { useNavigate } from "react-router-dom";
 import { get_all_appointments } from '../apicalls/appointment';
+import { verify_jwt } from "../apicalls/axiosInstance";
 const Appointment = () => {
   const [appointment_list, setappointment_list] = useState([]);
-
-
+  const navigator = useNavigate();
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
+        
+        const token = localStorage.getItem('JWT');
+        if (token) {
+          console.log("Found a JWT token");
+          const respon = verify_jwt(token);
+    
+          if (respon === "1" || respon === "2") {
+            navigator("/LandingPage")
+            return 
+          }
+        } else {
+          navigator("/LandingPage")
+          return
+        }
         const response = await get_all_appointments();
         console.log(response)
         if (response === "1") {
+          console.log(response)
           localStorage.removeItem("JWT")
-          navigator("/");
+          navigator("/Landingpage");
+          return 
         }
         const json = xmlJs.xml2js(response, { compact: true, spaces: 2 });
         let items = [];

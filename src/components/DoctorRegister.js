@@ -67,7 +67,7 @@ function DoctorRegistration() {
             console.log('Response from server:', response.data);
             if (response.data === "Success") {
                 alert("Registration Done");
-                navigate("/home");
+                navigate("/Overview");
                 setDoctorName('');
                 setGender('');
                 setAge('');
