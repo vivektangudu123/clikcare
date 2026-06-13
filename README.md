@@ -102,6 +102,7 @@ clikcare/
 **Vivek Tangudu**
 
 - GitHub: [@vivektangudu123](https://github.com/vivektangudu123)
+- LinkedIn: [vivektangudu](https://www.linkedin.com/in/vivektangudu)
 
 ## 📄 License
 
