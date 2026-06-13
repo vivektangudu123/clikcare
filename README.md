@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# 🩺 ClikCare — Telemedicine Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ClikCare is a telemedicine web application that connects patients with doctors. Patients log in with an OTP, browse doctors by specialization and experience, book appointments, manage medical reports, and join **real-time video consultations** powered by WebRTC.
 
-## Available Scripts
+<p align="left">
+  <img alt="React" src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black">
+  <img alt="WebRTC" src="https://img.shields.io/badge/WebRTC-simple--peer-333333?logo=webrtc&logoColor=white">
+  <img alt="React Router" src="https://img.shields.io/badge/React_Router-6-CA4245?logo=reactrouter&logoColor=white">
+  <img alt="Axios" src="https://img.shields.io/badge/Axios-HTTP-5A29E4?logo=axios&logoColor=white">
+  <img alt="JWT" src="https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens&logoColor=white">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-green">
+</p>
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Dual-role access** — separate login flows for **doctors** and **patients**.
+- **OTP authentication** — passwordless login; a JWT is issued on verification and persisted in `localStorage`.
+- **Doctor discovery** — browse available doctors by name, specialization and years of experience.
+- **Appointment booking** — pick a doctor and schedule an appointment with a date/time slot.
+- **Real-time video consultations** — peer-to-peer video calls via WebRTC (`simple-peer`) with WebSocket signaling and live connection status.
+- **Medical reports** — upload, view (in-app PDF viewer via `react-pdf`), download and share patient reports; doctors can upload reports for patients.
+- **Smooth UX** — animated transitions with `react-spring` and a collapsible sidebar navigation.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Tech Stack
 
-### `npm test`
+| Layer | Technology |
+|------|------------|
+| Frontend | React 18, React Router DOM 6 |
+| Realtime | `simple-peer` (WebRTC), WebSocket signaling |
+| Documents | `react-pdf` (PDF rendering) |
+| Animation | `react-spring` |
+| HTTP | Axios |
+| Auth | JWT (`localStorage`), OTP verification |
+| Tooling | Create React App (react-scripts 5) |
+| Backend API | REST + WebSocket service at `http://localhost:5001` (separate repository) |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🧭 Main Screens
 
-### `npm run build`
+| Screen | Description |
+|--------|-------------|
+| Landing | Doctor / Patient role selection |
+| Login | OTP-based authentication |
+| Overview | Browse doctors and book appointments |
+| Appointments | List of booked appointments with doctor + time |
+| Reports | Upload / view / download / share medical reports |
+| Video | WebRTC video consultation room |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🔌 Backend API
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The app expects a backend at `http://localhost:5001`:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| `POST` | `/api/auth/send_otp` | Send login OTP |
+| `POST` | `/api/auth/verify_otp` | Verify OTP, return JWT |
+| `POST` | `/api/auth/jwt` | Validate JWT |
+| `GET`  | `/doctors/all` | List all doctors |
+| `GET`/`POST` | `/appointments/all`, `/appointments/create` | View / create appointments |
+| `GET`/`POST` | `/records/all`, `/records/add` | View / upload medical records |
+| `WS`   | `ws://localhost:5001/videochat` | Video-call signaling |
 
-### `npm run eject`
+## 🚀 Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+# clone
+git clone https://github.com/vivektangudu123/clikcare.git
+cd clikcare
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# install dependencies
+npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# start the dev server (http://localhost:3000)
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+> Requires the ClikCare backend running at `http://localhost:5001`.
 
-## Learn More
+### Available scripts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Command | Description |
+|---------|-------------|
+| `npm start` | Run the app in development mode |
+| `npm run build` | Build an optimized production bundle |
+| `npm test` | Run the test runner |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📁 Project Structure
 
-### Code Splitting
+```
+clikcare/
+├── src/
+│   ├── pages/          # Overview, Appointments, Reports
+│   ├── components/     # Video (WebRTC), Sidebar, LandingPage, logins
+│   ├── apicalls/       # axiosInstance, patient, doctor, appointment, records
+│   └── App.js          # routes
+└── package.json
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 👤 Author
 
-### Analyzing the Bundle Size
+**Vivek Tangudu**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- GitHub: [@vivektangudu123](https://github.com/vivektangudu123)
 
-### Making a Progressive Web App
+## 📄 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Released under the MIT License.
